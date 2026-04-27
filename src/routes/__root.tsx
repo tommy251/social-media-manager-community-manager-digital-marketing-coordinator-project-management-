@@ -1,3 +1,5 @@
+
+
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { OceanScene } from "@/components/OceanScene";
 
@@ -49,7 +51,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <>
-      <OceanScene />
+      {/* <OceanScene /> */}
       <Outlet />
     </>
   );
