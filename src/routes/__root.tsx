@@ -1,9 +1,18 @@
-
-
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { OceanScene } from "@/components/OceanScene";
+import { Component, type ReactNode } from "react";
 
 import "../styles.css";
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: boolean }> {
+  state = { error: false };
+  static getDerivedStateFromError() {
+    return { error: true };
+  }
+  render() {
+    return this.state.error ? null : this.props.children;
+  }
+}
 
 function NotFoundComponent() {
   return (
@@ -28,7 +37,6 @@ function NotFoundComponent() {
 }
 
 export const Route = createRootRoute({
-  
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -51,7 +59,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <>
-      <OceanScene />
+      <ErrorBoundary>
+        <OceanScene />
+      </ErrorBoundary>
       <Outlet />
     </>
   );
