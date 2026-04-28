@@ -36,7 +36,9 @@ createServer(async (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const request = new Request(url, {
       method: req.method,
-      headers: req.headers,
+      headers: Object.fromEntries(
+        Object.entries(req.headers).filter(([, v]) => v !== undefined)
+      ),
     });
 
     const response = await server.fetch(request);
@@ -47,9 +49,9 @@ createServer(async (req, res) => {
     res.writeHead(response.status, headers);
     res.end(Buffer.from(body));
   } catch (err) {
-    console.error("Request error:", err);
-    res.writeHead(500);
-    res.end("Internal Server Error");
+    console.error("Server crash:", err);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ status: 500, unhandled: true, message: err.message }));
   }
 }).listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
