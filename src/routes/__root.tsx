@@ -51,7 +51,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <>
-      {/* <OceanScene /> */}
+      <OceanScene />
       <Outlet />
     </>
   );
