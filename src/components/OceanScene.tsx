@@ -104,15 +104,13 @@ function FloatingOrbs() {
 }
 
 export function OceanScene() {
-  // Client-only mount — avoids SSR rendering Canvas (which causes WebGL context loss on hydration)
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-10 w-full h-full">
-      {/* Static dusk gradient — only shown until WebGL Canvas mounts */}
+    <div className="fixed inset-0 -z-10 w-full h-full" suppressHydrationWarning>
       {!mounted && (
         <div
           className="absolute inset-0"
@@ -141,7 +139,6 @@ export function OceanScene() {
           </Suspense>
         </Canvas>
       )}
-      {/* Vignette + readability layer */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(10,8,24,0.55)_100%)]" />
     </div>
   );
